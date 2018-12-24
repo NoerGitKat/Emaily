@@ -1,15 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 
-// Importing Passport settings
+// Require models
+require('../models/user');
+
+// Import Passport settings
 require('../services/passport');
 
-// Importing routres
+// Import routres
 const authRoutes = require('../routes/auth');
 
+// Import mLab connection URI
 const mongoURI = require('../config/keys').mongoURI;
 
-// Connect with remote MongoDB server
+// Cookie Key
+const cookieKey = require('../config/keys').cookieKey;
+
+// Connect with remote MongoDB server (mLab)
 mongoose.connect(
 	mongoURI,
 	{ useNewUrlParser: true }
@@ -17,6 +26,27 @@ mongoose.connect(
 
 // Create Express server instance
 const app = express();
+
+// Use cookie-session middleware in Express
+app.use(
+	cookieSession({
+		// Establish session duration: 30 days until expiration
+		maxAge: 30 * 24 * 60 * 60 * 1000,
+		// Encrypt cookie with custom key
+		keys: [cookieKey],
+	})
+);
+
+// Initialize PassportJS
+app.use(passport.initialize());
+
+// Start session with PassportJS
+app.use(passport.session());
+
+// Temp route
+app.get('/', (req, res) => {
+	res.send('hello world!');
+});
 
 // Use routes
 authRoutes(app);

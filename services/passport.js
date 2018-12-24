@@ -1,9 +1,24 @@
-// Import PassportJS and Google Strategy
+// Import PassportJS and Auth strategies
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 // Import client ID/client secret
 const keys = require('../config/keys');
+
+// Import Mongoose get User model
+const mongoose = require('mongoose');
+const User = mongoose.model('users');
+
+// Get data from a user object (the Mongoose model)
+// to store in a cookie for session (serialize)
+passport.serializeUser((user, done) => {
+	// The first argument of done() is an error object
+	done(null, user.id);
+});
+
+// Take user.id and turn it back into a user object (deserialize)
+passport.deserializeUser((userId, done) => {});
 
 // Instantiate GoogleStrategy for Passport
 passport.use(
@@ -14,9 +29,45 @@ passport.use(
 			callbackURL: '/auth/google/callback',
 		},
 		(accessToken, refreshToken, profile, done) => {
-			console.log('accessToken', accessToken);
-			console.log('refreshToken', refreshToken);
-			console.log('profile', profile);
+			// First check if User already exists
+			User.findOne({ googleId: profile.id })
+				.then(existingUser => {
+					if (existingUser) {
+						// User already exists
+						done(null, existingUser);
+					} else {
+						// Creates instance of new User => record in DB
+						// Save() persists the data
+						new User({ googleId: profile.id }).save().then(newUser => done(null, newUser));
+					}
+				})
+				.catch(error => console.log('Error at user check in DB', error));
+		}
+	)
+);
+
+// Instantiate FacebookStrategy for Passport
+passport.use(
+	new FacebookStrategy(
+		{
+			clientID: keys.facebookAppId,
+			clientSecret: keys.facebookAppSecret,
+			callbackURL: '/auth/facebook/callback',
+		},
+		(accessToken, refreshToken, profile, done) => {
+			// First check if User already exists
+			User.findOne({ facebookId: profile.id })
+				.then(existingUser => {
+					if (existingUser) {
+						// User already exists
+						done(null, existingUser);
+					} else {
+						// Creates instance of new User => record in DB
+						// Save() persists the data
+						new User({ facebookId: profile.id }).save().then(newUser => done(null, newUser));
+					}
+				})
+				.catch(error => console.log('Error at user check in DB', error));
 		}
 	)
 );
