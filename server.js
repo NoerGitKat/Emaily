@@ -4,19 +4,19 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 
 // Require models
-require('../models/user');
+require('./models/user');
 
 // Import Passport settings
-require('../services/passport');
+require('./services/passport');
 
 // Import routres
-const authRoutes = require('../routes/auth');
+const authRoutes = require('./routes/auth');
 
 // Import mLab connection URI
-const mongoURI = require('../config/keys').mongoURI;
+const mongoURI = require('./config/keys').mongoURI;
 
 // Cookie Key
-const cookieKey = require('../config/keys').cookieKey;
+const cookieKey = require('./config/keys').cookieKey;
 
 // Connect with remote MongoDB server (mLab)
 mongoose.connect(
