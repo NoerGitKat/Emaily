@@ -33,6 +33,7 @@ passport.use(
 			clientID: keys.googleClientID,
 			clientSecret: keys.googleClientSecret,
 			callbackURL: '/auth/google/callback',
+			proxy: true,
 		},
 		(accessToken, refreshToken, profile, done) => {
 			// First check if User already exists
@@ -59,6 +60,7 @@ passport.use(
 			clientID: keys.facebookAppId,
 			clientSecret: keys.facebookAppSecret,
 			callbackURL: '/auth/facebook/callback',
+			proxy: true,
 		},
 		(accessToken, refreshToken, profile, done) => {
 			// First check if User already exists
