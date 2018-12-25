@@ -18,7 +18,13 @@ passport.serializeUser((user, done) => {
 });
 
 // Take user.id and turn it back into a user object (deserialize)
-passport.deserializeUser((userId, done) => {});
+passport.deserializeUser((userId, done) => {
+	User.findById(userId)
+		.then(user => {
+			done(null, user);
+		})
+		.catch(error => console.log('Something went wrong with deserialization!', error));
+});
 
 // Instantiate GoogleStrategy for Passport
 passport.use(

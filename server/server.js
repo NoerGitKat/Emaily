@@ -28,6 +28,8 @@ mongoose.connect(
 const app = express();
 
 // Use cookie-session middleware in Express
+// Middleware preprocesses request data before it is send off
+// to routes
 app.use(
 	cookieSession({
 		// Establish session duration: 30 days until expiration

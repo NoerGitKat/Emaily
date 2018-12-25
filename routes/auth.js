@@ -1,8 +1,4 @@
-const express = require('express');
 const passport = require('passport');
-
-// Create Express server instance
-const app = express();
 
 module.exports = app => {
 	// Create GET route for Google Authentication
@@ -18,15 +14,24 @@ module.exports = app => {
 	app.get('/auth/google/callback', passport.authenticate('google'));
 
 	// GET route for Facebook Authentication
-	app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'read_stream' }));
+	app.get('/auth/facebook', passport.authenticate('facebook'));
 
 	// GET route for handling callback Facebook Authentication
 	app.get('/auth/facebook/callback', (req, res) => {
 		passport.authenticate('facebook');
 	});
 
+	// GET route for logout
+	app.get('/api/logout', (req, res) => {
+		// PassportJS appends a logout function (that removes the
+		// user object in the cookie) to the req object
+		req.logout();
+		res.send(req.user);
+	});
+
+	// GET current user data (temp route)
 	app.get('/api/current_user', (req, res) => {
-		console.log('req.user', req.user);
+		console.log('req.session', req.session);
 		res.send(req.user);
 	});
 };
