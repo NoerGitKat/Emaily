@@ -35,20 +35,18 @@ passport.use(
 			callbackURL: '/auth/google/callback',
 			proxy: true,
 		},
-		(accessToken, refreshToken, profile, done) => {
+		async (accessToken, refreshToken, profile, done) => {
 			// First check if User already exists
-			User.findOne({ googleId: profile.id })
-				.then(existingUser => {
-					if (existingUser) {
-						// User already exists
-						done(null, existingUser);
-					} else {
-						// Creates instance of new User => record in DB
-						// Save() persists the data
-						new User({ googleId: profile.id }).save().then(newUser => done(null, newUser));
-					}
-				})
-				.catch(error => console.log('Error at user check in DB', error));
+			const existingUser = await User.findOne({ googleId: profile.id });
+
+			if (existingUser) {
+				// User already exists
+				done(null, existingUser);
+			} else {
+				// Creates instance of new User => record in DB
+				// Save() persists the data
+				new User({ googleId: profile.id }).save().then(newUser => done(null, newUser));
+			}
 		}
 	)
 );
@@ -62,20 +60,18 @@ passport.use(
 			callbackURL: '/auth/facebook/callback',
 			proxy: true,
 		},
-		(accessToken, refreshToken, profile, done) => {
+		async (accessToken, refreshToken, profile, done) => {
 			// First check if User already exists
-			User.findOne({ facebookId: profile.id })
-				.then(existingUser => {
-					if (existingUser) {
-						// User already exists
-						done(null, existingUser);
-					} else {
-						// Creates instance of new User => record in DB
-						// Save() persists the data
-						new User({ facebookId: profile.id }).save().then(newUser => done(null, newUser));
-					}
-				})
-				.catch(error => console.log('Error at user check in DB', error));
+			const existingUser = await User.findOne({ facebookId: profile.id });
+
+			if (existingUser) {
+				// User already exists
+				done(null, existingUser);
+			} else {
+				// Creates instance of new User => record in DB
+				// Save() persists the data
+				new User({ facebookId: profile.id }).save().then(newUser => done(null, newUser));
+			}
 		}
 	)
 );
