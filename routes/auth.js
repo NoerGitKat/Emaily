@@ -11,7 +11,9 @@ module.exports = app => {
 	);
 
 	// Create GET route for handling callback Google Authentication
-	app.get('/auth/google/callback', passport.authenticate('google'));
+	app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
+		res.redirect('/surveys');
+	});
 
 	// GET route for Facebook Authentication
 	app.get('/auth/facebook', passport.authenticate('facebook'));
@@ -26,7 +28,7 @@ module.exports = app => {
 		// PassportJS appends a logout function (that removes the
 		// user object in the cookie) to the req object
 		req.logout();
-		res.send(req.user);
+		res.redirect('/');
 	});
 
 	// GET current user data (temp route)

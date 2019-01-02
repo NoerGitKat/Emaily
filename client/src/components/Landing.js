@@ -2,8 +2,9 @@ import React from 'react';
 
 const Landing = ({}) => {
 	return (
-		<div id="landing">
-			<h1>Landing</h1>
+		<div id="landing" style={{ textAlign: 'center' }}>
+			<h1>Emaily!</h1>
+			<p>Collect feedback from your users</p>
 		</div>
 	);
 };

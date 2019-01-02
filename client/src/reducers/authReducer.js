@@ -1,10 +1,12 @@
-const initialState = [];
+import { FETCH_USER } from './../actions/types';
 
-export default (state = initialState, action) {
-  switch(action.type) {
-    case "SOME_ACTION_TYPE":
-      return state;
-    default:
-      return state;
-  }
-}
+const initialState = {};
+
+export default (state = initialState, action) => {
+	switch (action.type) {
+		case FETCH_USER:
+			return { ...state, user: action.currentUser.data || false };
+		default:
+			return state;
+	}
+};
