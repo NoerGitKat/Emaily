@@ -19,7 +19,7 @@ const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(ReduxTh
 
 const AppComponent = (
 	<Provider store={store}>
-		<App />
+		<App stripeKey={process.env.REACT_APP_STRIPE_PUB_KEY} />
 	</Provider>
 );
 

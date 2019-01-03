@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 // Require models
 require('./models/user');
@@ -11,6 +12,7 @@ require('./services/passport');
 
 // Import routres
 const authRoutes = require('./routes/auth');
+const billingRoutes = require('./routes/billing');
 
 // Import mLab connection URI
 const mongoURI = require('./config/keys').mongoURI;
@@ -39,11 +41,17 @@ app.use(
 	})
 );
 
-// Initialize PassportJS
+// Initialize PassportJS middleware
 app.use(passport.initialize());
 
 // Start session with PassportJS
 app.use(passport.session());
+
+// Initialize bodyParser middleware
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// Parse application/json
+app.use(bodyParser.json());
 
 // Temp route
 app.get('/', (req, res) => {
@@ -52,6 +60,7 @@ app.get('/', (req, res) => {
 
 // Use routes
 authRoutes(app);
+billingRoutes(app);
 
 // Dynamic PORT binding
 const PORT = process.env.PORT || 5000;

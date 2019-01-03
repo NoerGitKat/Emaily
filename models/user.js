@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
 	googleId: String,
 	facebookId: String,
+	stripeData: Object,
 });
 
 // Assign label of 'users' to the User schema

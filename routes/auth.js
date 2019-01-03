@@ -36,4 +36,5 @@ module.exports = app => {
 		console.log('req.session', req.session);
 		res.send(req.user);
 	});
+
 };

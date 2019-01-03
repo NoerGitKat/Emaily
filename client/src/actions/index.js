@@ -11,3 +11,14 @@ export const fetchUser = () => {
 		dispatch({ type: FETCH_USER, currentUser });
 	};
 };
+
+export const handleStripeToken = token => {
+	// Send token obj to backend to (1) update User model
+	// and (2) update credits in state
+	return async dispatch => {
+		const stripeToken = await axios.post('api/stripe', token);
+
+		// Dispatch FETCH_USER to set token data in User model
+		dispatch({ type: FETCH_USER, currentUser: stripeToken.data });
+	};
+};

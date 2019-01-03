@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Payments from './Payments';
 
 class Header extends React.Component {
 	renderContent() {
@@ -14,11 +15,14 @@ class Header extends React.Component {
 					</li>
 				);
 			default:
-				return (
-					<li>
+				return [
+					<li key="li1">
+						<Payments {...this.props} />{' '}
+					</li>,
+					<li key="li2">
 						<a href="/api/logout">Logout</a>
-					</li>
-				);
+					</li>,
+				];
 		}
 	}
 
