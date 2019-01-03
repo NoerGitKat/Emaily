@@ -4,8 +4,9 @@ import Payments from './Payments';
 
 class Header extends React.Component {
 	renderContent() {
-		const { user } = this.props.auth;
-		switch (user) {
+		const { auth } = this.props;
+
+		switch (auth) {
 			case null:
 				return 'Still deciding';
 			case false:
@@ -16,10 +17,13 @@ class Header extends React.Component {
 				);
 			default:
 				return [
-					<li key="li1">
-						<Payments {...this.props} />{' '}
+					<li key="li1" style={{ padding: '0 1.5em' }}>
+						Credits: {auth.credits}
 					</li>,
 					<li key="li2">
+						<Payments {...this.props} />
+					</li>,
+					<li key="li3">
 						<a href="/api/logout">Logout</a>
 					</li>,
 				];
@@ -27,11 +31,11 @@ class Header extends React.Component {
 	}
 
 	render() {
-		const { user } = this.props.auth;
+		const { auth } = this.props;
 		return (
 			<nav>
 				<div className="nav-wrapper">
-					<Link to={user ? '/surveys' : '/'} className="left brand-logo">
+					<Link to={auth ? '/surveys' : '/'} className="left brand-logo">
 						Emaily
 					</Link>
 					<ul className="right">{this.renderContent()}</ul>

@@ -1,19 +1,22 @@
 const keys = require('./../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
-
-// Import Mongoose get User model
-const mongoose = require('mongoose');
-const User = mongoose.model('users');
+const requireLogin = require('./../middlewares/requireLogin');
 
 module.exports = app => {
 	// POST Stripe token
-	app.post('/api/stripe', async (req, res) => {
+	app.post('/api/stripe', requireLogin, async (req, res) => {
 		const createdStripeCharge = await stripe.charges.create({
 			amount: 500,
 			currency: 'usd',
 			description: '$5 for 5 credits',
 			source: req.body.id,
 		});
-		console.log('createdStripeCharge', createdStripeCharge);
+
+		// Add 5 credits to User model
+		req.user.credits += 5;
+		// Save new user instance to model
+		const user = await req.user.save();
+		console.log('what is user in this route?', user);
+		res.send(user);
 	});
 };

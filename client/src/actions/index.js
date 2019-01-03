@@ -8,7 +8,7 @@ export const fetchUser = () => {
 	return async dispatch => {
 		// Redux Thunk gives us direct access to dispatch function
 		const currentUser = await axios.get('/api/current_user');
-		dispatch({ type: FETCH_USER, currentUser });
+		dispatch({ type: FETCH_USER, currentUser: currentUser.data });
 	};
 };
 
@@ -17,7 +17,7 @@ export const handleStripeToken = token => {
 	// and (2) update credits in state
 	return async dispatch => {
 		const stripeToken = await axios.post('api/stripe', token);
-
+		
 		// Dispatch FETCH_USER to set token data in User model
 		dispatch({ type: FETCH_USER, currentUser: stripeToken.data });
 	};
