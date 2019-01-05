@@ -53,11 +53,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Parse application/json
 app.use(bodyParser.json());
 
-// Temp route
-app.get('/', (req, res) => {
-	res.send('hello world!');
-});
-
 // Use routes
 authRoutes(app);
 billingRoutes(app);
