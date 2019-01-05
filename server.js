@@ -62,6 +62,18 @@ app.get('/', (req, res) => {
 authRoutes(app);
 billingRoutes(app);
 
+if (process.env.NODE_ENV === 'production') {
+	// In prod Express will serve frontend build files
+	app.use(express.static('client/build'));
+
+	// If Express doesnt recognize route in URL, serve index.html
+	// and let React Router handle it
+	const path = require('path');
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+}
+
 // Dynamic PORT binding
 const PORT = process.env.PORT || 5000;
 
