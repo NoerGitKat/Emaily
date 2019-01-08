@@ -5,7 +5,8 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 
 // Require models
-require('./models/user');
+require('./models/User');
+require('./models/Survey');
 
 // Import Passport settings
 require('./services/passport');
@@ -13,6 +14,7 @@ require('./services/passport');
 // Import routres
 const authRoutes = require('./routes/auth');
 const billingRoutes = require('./routes/billing');
+const surveyRoutes = require('./routes/survey');
 
 // Import mLab connection URI
 const mongoURI = require('./config/keys').mongoURI;
@@ -56,6 +58,7 @@ app.use(bodyParser.json());
 // Use routes
 authRoutes(app);
 billingRoutes(app);
+surveyRoutes(app);
 
 if (process.env.NODE_ENV === 'production') {
 	// In prod Express will serve frontend build files
