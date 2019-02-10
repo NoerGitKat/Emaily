@@ -9,6 +9,10 @@ import 'materialize-css/dist/css/materialize.min.css';
 // Import reducers
 import reducers from './reducers';
 
+// Temp test code
+import axios from 'axios';
+window.axios = axios;
+
 const root = document.getElementById('root');
 
 // Add Redux Devtools for Chrome

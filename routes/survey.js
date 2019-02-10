@@ -13,7 +13,7 @@ const surveyTemplate = require('./../services/emailTemplates/surveyTemplate');
 
 module.exports = app => {
 	// Get survey overview page(protected route)
-	app.get('/api/surveys', requireLogin, requireCredits, (req, res) => {
+	app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
 		// Get field values from survey form
 		const { title, subject, body, recipients } = req.body;
 
@@ -28,6 +28,7 @@ module.exports = app => {
 		});
 
 		// Send Survey with Mailer
-		const mailer = new Mailer(newSurvey, surveyTemplate(survey));
+		const mailer = new Mailer(newSurvey, surveyTemplate(newSurvey));
+		mailer.send();
 	});
 };
