@@ -12,8 +12,12 @@ const Mailer = require('./../services/Mailer');
 const surveyTemplate = require('./../services/emailTemplates/surveyTemplate');
 
 module.exports = app => {
+	app.get('/api/surveys/thanks', (req, res) => {
+		res.send('Thanks for providing feedback!');
+	});
+
 	// Get survey overview page(protected route)
-	app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
+	app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
 		// Get field values from survey form
 		const { title, subject, body, recipients } = req.body;
 
@@ -29,6 +33,22 @@ module.exports = app => {
 
 		// Send Survey with Mailer
 		const mailer = new Mailer(newSurvey, surveyTemplate(newSurvey));
-		mailer.send();
+
+		// General error handling
+		try {
+			// Async because it is an API call
+			await mailer.send();
+
+			// After sending the email we save the survey to DB
+			await newSurvey.save();
+
+			// After sending the email we want to deduct a credit from user
+			req.user.credits -= 1;
+			const user = await req.user.save();
+
+			res.send(user);
+		} catch (err) {
+			res.status(422).send(err);
+		}
 	});
 };
