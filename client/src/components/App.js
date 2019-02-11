@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import Dashboard from './Dashboard';
 import Landing from './Landing';
-import SurveyNew from './SurveyNew';
+import SurveyNew from './surveys/SurveyNew';
 import NotFound from './NotFound';
 
 // Import Redux action creators
@@ -26,7 +26,7 @@ class App extends React.Component {
 					<Switch>
 						<Route exact path="/" component={Landing} />
 						<Route exact path="/surveys" component={Dashboard} />
-						<Route exact path="/survey/new" component={SurveyNew} />
+						<Route exact path="/surveys/new" component={SurveyNew} />
 						<Route exact path="/api/surveys/thanks" component={SurveyNew} />
 						<Route path="*" component={NotFound} />
 					</Switch>
