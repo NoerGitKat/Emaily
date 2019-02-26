@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+// Import styling
+import './../styles/App.css';
+
 // Import components
 import Header from './Header';
 import Dashboard from './Dashboard';

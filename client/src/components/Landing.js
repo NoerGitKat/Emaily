@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Landing = ({}) => {
+const Landing = () => {
 	return (
 		<div id="landing" style={{ textAlign: 'center' }}>
 			<h1>Emaily!</h1>

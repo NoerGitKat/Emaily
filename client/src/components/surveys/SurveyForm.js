@@ -1,31 +1,62 @@
-import React from 'react';
-import { reduxForm, Field } from 'redux-form'; // Allows us to communicate to Redux store
+import React, { Fragment } from 'react';
+import { reduxForm, Field } from 'redux-form'; // Allows us to communicate to Redux store directly
+import { Link } from 'react-router-dom';
 import SurveyField from './SurveyField';
-
-const FIELDS = [
-	{ label: 'Survey Title', name: 'title' },
-	{ label: 'Subject Line', name: 'subject' },
-	{ label: 'Email Body', name: 'body' },
-	{ label: 'Recipient List', name: 'emails' },
-];
+import { validateEmails } from './../../utils';
+import { default as formFields } from './formFields';
 
 // reduxForm predefined functions/props only work with Classes
 class SurveyForm extends React.Component {
 	renderFields = () => {
-		return FIELDS.map(field => <Field type="text" label={field.label} name={field.name} component={SurveyField} />);
+		return formFields.map((field, i) => (
+			<Field type="text" key={i} label={field.label} name={field.name} component={SurveyField} />
+		));
 	};
 
 	render() {
 		return (
-			<div>
-				<form onSubmit={this.props.handleSubmit(values => console.log(values))}>
-					{this.renderFields()} <button type="submit">Submit!</button>
+			<Fragment>
+				{/* Handlesubmit function comes from redux-form */}
+				<form onSubmit={this.props.handleSubmit(this.props.switchToReview)}>
+					{this.renderFields()}
+					<div className="formButtons">
+						<Link to="/surveys">
+							<button className="red btn-flat left white-text">Cancel</button>
+						</Link>
+						<button type="submit" className="teal btn-flat right white-text">
+							Next
+							<i className="material-icons right">done</i>
+						</button>
+					</div>
 				</form>
-			</div>
+			</Fragment>
 		);
 	}
 }
 
+function validateFields(formValues) {
+	const errors = {};
+
+	errors.emails = validateEmails(formValues.emails || '');
+
+	if (!formValues.title) {
+		errors.title = 'You must provide a title!';
+	}
+	if (!formValues.subject) {
+		errors.subject = 'You must provide a subject line!';
+	}
+	if (!formValues.body) {
+		errors.body = 'You must provide email content!';
+	}
+	if (!formValues.emails) {
+		errors.emails = 'You must insert at least 1 valid email address!';
+	}
+
+	return errors;
+}
+
 export default reduxForm({
+	validate: validateFields,
 	form: 'surveyForm',
+	destroyOnUnmount: false,
 })(SurveyForm);

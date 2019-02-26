@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Dashboard = ({}) => {
+const Dashboard = () => {
 	return (
 		<div id="dashboard">
 			Dashboard
