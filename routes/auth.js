@@ -33,8 +33,6 @@ module.exports = app => {
 
 	// GET current user data (temp route)
 	app.get('/api/current_user', (req, res) => {
-		console.log('req.session', req.session);
 		res.send(req.user);
 	});
-
 };

@@ -23,8 +23,10 @@ export const handleStripeToken = token => {
 	};
 };
 
-export const submitSurvey = values => {
-	return dispatch => {
-		dispatch({ type: SUBMIT_SURVEY, formValues: values });
+export const submitSurvey = (values, history) => {
+	return async dispatch => {
+		const res = await axios.post('/api/surveys', values); // Send SurveyForm values to backend
+		history.push('/'); // Send user to dashbaord
+		dispatch({ type: FETCH_USER, currentUser: res.data }); // Update User object
 	};
 };

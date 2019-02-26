@@ -37,7 +37,7 @@ class SurveyForm extends React.Component {
 function validateFields(formValues) {
 	const errors = {};
 
-	errors.emails = validateEmails(formValues.emails || '');
+	errors.recipients = validateEmails(formValues.recipients || '');
 
 	if (!formValues.title) {
 		errors.title = 'You must provide a title!';
@@ -48,8 +48,8 @@ function validateFields(formValues) {
 	if (!formValues.body) {
 		errors.body = 'You must provide email content!';
 	}
-	if (!formValues.emails) {
-		errors.emails = 'You must insert at least 1 valid email address!';
+	if (!formValues.recipients) {
+		errors.recipients = 'You must insert at least 1 valid email address!';
 	}
 
 	return errors;
