@@ -10,6 +10,7 @@ import Header from './Header';
 import Dashboard from './Dashboard';
 import Landing from './Landing';
 import SurveyNew from './surveys/SurveyNew';
+import SurveyThanks from './surveys/SurveyThanks';
 import NotFound from './NotFound';
 
 // Import Redux action creators
@@ -30,7 +31,7 @@ class App extends React.Component {
 						<Route exact path="/" component={Landing} />
 						<Route exact path="/surveys" component={Dashboard} />
 						<Route exact path="/surveys/new" component={SurveyNew} />
-						<Route exact path="/api/surveys/thanks" component={SurveyNew} />
+						<Route exact path="/api/surveys/thanks" component={SurveyThanks} />
 						<Route path="*" component={NotFound} />
 					</Switch>
 				</div>
