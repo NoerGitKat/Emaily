@@ -1,4 +1,4 @@
-import { FETCH_USER } from './../actions/types';
+import { FETCH_USER, FETCH_SURVEYS } from './../actions/types';
 
 // const initialState = {};
 

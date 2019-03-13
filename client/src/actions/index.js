@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Import action types
-import { FETCH_USER, SUBMIT_SURVEY } from './types';
+import { FETCH_USER, SUBMIT_SURVEY, FETCH_SURVEYS } from './types';
 
 export const fetchUser = () => {
 	// Sending GET request to Express server to get data current user
@@ -28,5 +28,12 @@ export const submitSurvey = (values, history) => {
 		const res = await axios.post('/api/surveys', values); // Send SurveyForm values to backend
 		history.push('/'); // Send user to dashbaord
 		dispatch({ type: FETCH_USER, currentUser: res.data }); // Update User object
+	};
+};
+
+export const fetchSurveys = () => {
+	return async dispatch => {
+		const res = await axios.get('/api/surveys');
+		dispatch({ type: FETCH_SURVEYS, surveys: res.data });
 	};
 };
